@@ -6,7 +6,9 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, "./static/frontend"),
     filename: "[name].js",
+
   },
+  
   module: {
     rules: [
       {
@@ -19,6 +21,10 @@ module.exports = {
       {
         test: /\.(png|jpg)$/i,
         type: 'asset/resource'
+      },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
       },
     ],
   },

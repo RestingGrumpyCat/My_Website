@@ -1,5 +1,5 @@
 import React from "react";
-import HomePage from "./HomePage"
+import RecipeHomePage from "./RecipeHomePage"
 import { 
     BrowserRouter, 
     Routes, 
@@ -13,8 +13,8 @@ const App = () => {
         <BrowserRouter>
             <Routes>
                 <Route>
-                    <Route index element={<HomePage />} />
-                    <Route path="/recipes"  element={<Recipes ingredient='avocado' />} />
+                    <Route index element={<RecipeHomePage />} />
+                    <Route path='/recipes/:ingredient' element={<Recipes />} />
 
                 </Route>
             </Routes>

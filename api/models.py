@@ -6,7 +6,7 @@ from django.db import models
 class Recipe(models.Model):
     id = models.IntegerField(primary_key=True, blank=False, null=False)
     ingredient = models.CharField(max_length=20, blank=False, null=False)
-    image_url = models.CharField(max_length=100, blank=True, null=True)
+    image = models.CharField(max_length=100, blank=True, null=True)
     imageType = models.CharField(max_length=20, blank=True, null=True)
     likes = models.IntegerField(blank=True, null=True)
     missedIngredientCount = models.IntegerField(blank=True, null=True)

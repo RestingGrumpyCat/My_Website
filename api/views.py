@@ -11,13 +11,14 @@ import environ
 from api import serializers
 env = environ.Env()
 environ.Env.read_env()
+apiKey = env('API_KEY')
 
 def populateDB(data, ingredient):
     for item in data:
         recipe_data = Recipe(
             id = item["id"],
             ingredient = ingredient,
-            image_url = item["image"],
+            image = item["image"],
             imageType= item["imageType"],
             likes = item["likes"],
             missedIngredientCount = item["missedIngredientCount"],
@@ -31,35 +32,37 @@ def populateDB(data, ingredient):
 
 
 
-
-class searchRecipe(APIView):
+#API view for search by one ingredient
+class searchRecipeIngredient(APIView):
     lookup_url_kwarg = 'ingredients'
     serializer_class = searchRecipeSerializer
 
     def get(self, request, format=None):
         ingredient = request.query_params.get(self.lookup_url_kwarg)
         querySet = Recipe.objects.all().filter(ingredient=ingredient)
-        querySet_json = searchRecipeSerializer(querySet, many=True)
-        return JsonResponse(querySet_json.data, safe=False)
 
+        if querySet.exists():
+            querySet_json = searchRecipeSerializer(querySet, many=True)
+            return JsonResponse(querySet_json.data, safe=False)
+        else: 
+            url = 'https://api.spoonacular.com/recipes/findByIngredients'
+            apiString = url+'?apiKey='+apiKey + '&ingredients=' + ingredient
+            response = requests.get(apiString)
+            data = response.json()
+            if len(data) == 0:
+                return Response({'Invalid ingredient'}, status=status.HTTP_400_BAD_REQUEST)
 
-
-# class searchRecipe(APIView): 
-#     lookup_url_kwarg = 'ingredients'
-
-#     def get(self, request, format=None):
-#         apiKey = env('API_KEY')
-#         url = 'https://api.spoonacular.com/recipes/findByIngredients'
-#         ingredient = request.query_params.get(self.lookup_url_kwarg)
-#         print(ingredient)
-#         if ingredient!=None:
-#             apiString = url+'?apiKey='+apiKey + '&ingredients=' + ingredient
-#             response = requests.get(apiString)
-#             data = response.json()
-#             populateDB(data, ingredient)
-#             return Response({ingredient}, status=status.HTTP_200_OK)
-            
-#         else: 
-#             return Response({"No ingredient is passed"}, status=status.HTTP_400_BAD_REQUEST)
+            return JsonResponse(data, safe=False)
         
+    def post(self, request, format=None):
+        if len(request.data) > 0:
+            data = request.data
+            ingredient=data[-1]['ingredient']
+            data = data[:-1]
+            populateDB(data, ingredient)
+            return Response({'OK'}, status=status.HTTP_200_OK)
+        else:
+            return Response({'Bad request': 'No data is passed.'}, status=status.HTTP_400_BAD_REQUEST)
 
+
+# class searchRecipeIngredients(APIView):

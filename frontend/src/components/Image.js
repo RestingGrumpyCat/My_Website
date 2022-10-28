@@ -6,7 +6,7 @@ const Image = ({style, image_src, id}) =>{
     const navigate = useNavigate();
 
     const getRecipe = () => {
-        navigate("/" )
+        navigate("/recipes" )
     }
 
     // const getRecipe = () => {
@@ -23,8 +23,8 @@ const Image = ({style, image_src, id}) =>{
 
     return (
         <div>
-            <img style={style} 
-                src={image_src} onClick={getRecipe} />
+            <img  
+                src={image_src}  onClick={getRecipe} />
         </div>
     )
 
