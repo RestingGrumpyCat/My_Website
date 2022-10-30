@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const RecipeHomePage = () => {
     const navigate = useNavigate();
-    const stringRegex = /[a-zA-Z](\s+|,\s*)[a-zA-Z]/g;
+    const stringRegex = /[a-zA-Z],\s*[a-zA-Z]/g;
 
     const [formData, setFormData] = useState();
     const form = useRef(null);
@@ -23,11 +23,11 @@ const RecipeHomePage = () => {
     const handleSubmit = event => {
         event.preventDefault();
         if (formData){
-            // navigate('recipes/' + formData)
 
             //if more than one ingredient is passed
             if (stringRegex.test(formData)){
-                console.log(formData)
+                navigate('recipes/' + formData)
+                // console.log(formData)
             }
             else{
                 navigate('recipes/' + formData)
@@ -58,10 +58,8 @@ const RecipeHomePage = () => {
         <div style={{ backgroundColor: '#FFDF00'}}>
             <ul>
                 <li onClick={() => scrollToSection(form)} className='link'>
-
                 </li>
                 <li onClick={() => scrollToSection(pictures)} className='link'>
-
                 </li>
             </ul>
             <div >

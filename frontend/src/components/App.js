@@ -6,7 +6,7 @@ import {
     Route 
 } from "react-router-dom";
 import Recipes from "./Recipes"
-
+import Recipe from "./Recipe"
 const App = () => {
     
     return(
@@ -15,6 +15,7 @@ const App = () => {
                 <Route>
                     <Route index element={<RecipeHomePage />} />
                     <Route path='/recipes/:ingredient' element={<Recipes />} />
+                    <Route path='/recipes/:ingredient/:recipeID' element={<Recipe />} />
 
                 </Route>
             </Routes>

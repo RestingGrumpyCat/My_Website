@@ -32,7 +32,6 @@ def populateDB(data, ingredient):
 
 
 
-#API view for search by one ingredient
 class searchRecipeIngredient(APIView):
     lookup_url_kwarg = 'ingredients'
     serializer_class = searchRecipeSerializer
@@ -59,10 +58,17 @@ class searchRecipeIngredient(APIView):
             data = request.data
             ingredient=data[-1]['ingredient']
             data = data[:-1]
-            populateDB(data, ingredient)
+            querySet = Recipe.objects.all().filter(ingredient=ingredient)
+            if not querySet.exists():
+                if ',' not in ingredient:
+                    print('Populating db now!')
+                    populateDB(data, ingredient)
             return Response({'OK'}, status=status.HTTP_200_OK)
         else:
             return Response({'Bad request': 'No data is passed.'}, status=status.HTTP_400_BAD_REQUEST)
 
 
-# class searchRecipeIngredients(APIView):
+# class searchOneRecipeByID(APIView):
+#     lookup_url_kwarg = id
+
+#     def get(self, request, format=None):
