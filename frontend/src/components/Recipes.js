@@ -115,7 +115,7 @@ const Recipes = () => {
                 ) :(
                     <div>
                     <BlackTypography className='mt-5' >
-                       sry ''{ingredient}'' is either not a valid ingredient or there is no recipe using it.  =( 
+                       Sorry ''{ingredient}'' is either not a valid ingredient or there is no recipe using it.  =( 
                     </BlackTypography>   
                     <Button href="/" variant='warning'><p className='fuzzy_bubbles'>Take me back!</p></Button>
                     </div>

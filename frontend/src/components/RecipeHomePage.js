@@ -6,7 +6,6 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCoffee } from '@fortawesome/free-solid-svg-icons';
-import Form from './Form';
 
 const RecipeHomePage = () => {
     const navigate = useNavigate();
@@ -86,7 +85,9 @@ const RecipeHomePage = () => {
                 </div> 
                 <div ref={pictures} className='center-screen'>
                     <h2 className='fuzzy_bubbles'>Today's Recommended Ingredients:</h2>
-                    <Images />
+                    <div className='image_wrapper'>
+                        <Images />
+                    </div>
                 </div>
             </div>    
                   

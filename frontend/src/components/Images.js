@@ -13,11 +13,11 @@ const Images = () =>{
         <Grid>
         <div className="homePageImageContainer">
 
-            <Row className='row-cols-1 row-cols-md-4 g-5 mt-5 ms-5 me-0'>
-            <Image  image_src={avocadoImage}  id='avocado'/>{' '}
-            <Image  image_src={peanutButterImage} id='peanut butter'/>{' '}
-            <Image  image_src={carrotImage} id='carrot'/>{' '}
-            <Image  image_src={eggImage} id='egg'/>{' '}
+            <Row className='row-cols-1 row-cols-md-4 g-3 ms-2 me-2'>
+            <Image  image_src={avocadoImage}  id='avocado' style='recipe_img'/>{' '}
+            <Image  image_src={peanutButterImage} id='peanut butter' style='recipe_img' />{' '}
+            <Image  image_src={carrotImage} id='carrot' style='recipe_img' />{' '}
+            <Image  image_src={eggImage} id='egg' style='recipe_img'/>{' '}
             </Row>
         </div>
         </Grid>

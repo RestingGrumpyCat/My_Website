@@ -1,4 +1,4 @@
-import json
+import re
 import requests
 from .serializers import searchRecipeIngredientSerializer, searchRecipeByIDSerializer
 from .models import Recipe, Recipe_id
@@ -32,6 +32,7 @@ def populate_api_recipe(data, ingredient):
         recipe_data.save()
 
 def populate_api_recipe_id(data):
+
     recipe_data = Recipe_id(
         id = data[0]["id"],
         title = data[0]['title'],
@@ -46,8 +47,12 @@ def populate_api_recipe_id(data):
         aggregateLikes = data[0]['aggregateLikes'],
         healthScore = data[0]['healthScore'],
         pricePerServing = data[0]['pricePerServing'],
-        extendedIngredients = data[0]['extendedIngredients']
-    )
+        extendedIngredients = data[0]['extendedIngredients'],
+        glutenFree = data[0]['glutenFree'],
+        vegetarian = data[0]['vegetarian'],
+        vegan = data[0]['vegetarian'],
+        dairyFree = data[0]['dairyFree']
+        )
     recipe_data.save()
 
 
@@ -94,16 +99,16 @@ class searchRecipeByID(APIView):
         ID = request.query_params.get(self.lookup_url_kwarg)
         querySet = Recipe_id.objects.all().filter(id=ID)
         if querySet.exists():
-            print('old')
             querySet_json = searchRecipeByIDSerializer(querySet, many=True)
             return JsonResponse(querySet_json.data, safe=False)
         else:
-            print('new')
-
             url = 'https://api.spoonacular.com/recipes/'
             apiString = url + ID + '/information?includeNutrition=false' + '&apiKey='+apiKey 
             response = requests.get(apiString)
             data = response.json()
+            summary = data['summary']
+            summary = re.sub(r'\<.*?\>', '', summary)
+            data['summary'] = summary
             if len(data) == 0:
                 return Response({'Invalid id'}, status=status.HTTP_400_BAD_REQUEST)
         
@@ -111,13 +116,24 @@ class searchRecipeByID(APIView):
     
     def post(self, request, format=None):
         data = request.data
+
         if len(data) > 0:
             ID = data[0]['id']
             querySet = Recipe_id.objects.all().filter(id=ID)
             if not querySet.exists():
-                print('Populating data now!')
-                populate_api_recipe_id(data)
-            return Response({'OK'}, status=status.HTTP_200_OK)
+                if len(data[0]) != 2:
+                    print('Populating data now!')
+                    populate_api_recipe_id(data)    
+                    return Response({'Data populated successfully!'}, status=status.HTTP_200_OK)
+                return Response({'Bad request'}, status=status.HTTP_400_BAD_REQUEST)
+            else:
+                aggregateLikes = data[0]['aggregateLikes']
+                recipe = querySet[0]
+                recipe.aggregateLikes = aggregateLikes
+                recipe.save(update_fields=['aggregateLikes'])
+                return Response({'Likes updated successfully'}, status=status.HTTP_200_OK)
+            
+                
         else:
             return Response({'Bad request': 'No data is passed.'}, status=status.HTTP_400_BAD_REQUEST)
 

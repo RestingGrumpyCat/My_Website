@@ -1,5 +1,5 @@
 """
-ASGI config for my_website project.
+ASGI config for What-is-in-my-fridge project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'my_website.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'What-is-in-my-fridge.settings')
 
 application = get_asgi_application()

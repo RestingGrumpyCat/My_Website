@@ -31,4 +31,8 @@ class Recipe_id(models.Model):
     healthScore = models.IntegerField(blank=True, null=True)
     pricePerServing = models.IntegerField(blank=True, null=True)
     extendedIngredients = ArrayField(models.CharField(max_length=200, blank=True, null=True))
-     
+    glutenFree = models.BooleanField(blank=True, null=True)
+    vegetarian = models.BooleanField(blank=True, null=True)
+    vegan = models.BooleanField(blank=True, null=True)
+    dairyFree = models.BooleanField(blank=True, null=True)
+

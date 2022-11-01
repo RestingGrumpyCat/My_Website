@@ -5,6 +5,8 @@ img{
   height:200px;
   width: 300px;
 }
+
+
 .homePageImageContainer{
   display: flex;
   flex-direction: row;
@@ -24,6 +26,7 @@ img{
   gap: 10%;
   height: 600px;
 }
+
 
 .image_wrapper {
   overflow: hidden;
@@ -62,6 +65,17 @@ img{
   cursor: pointer;
 }
 
+
+.heart{
+  cursor: pointer;
+}
+
+.heart:hover{
+  color: rgb(230, 95, 131);
+}
+.heart.active {
+  color: rgb(230, 95, 131);
+}
 
 /* body{margin:0;background: #000033} */
 .loader{position:absolute;top:50%;left:50%;height:60px;width:160px;margin:0;-webkit-transform:translate(-50%,-50%);transform:translate(-50%,-50%)}
