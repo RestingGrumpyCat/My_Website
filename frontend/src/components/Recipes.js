@@ -1,21 +1,33 @@
 import React, { useState,useEffect } from 'react';
-import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Audio } from 'react-loader-spinner'
+import { withStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
+
+const YellowTypography = withStyles({
+    root: {
+      color: "#ffc108",
+      fontFamily: 'Fuzzy Bubbles'
+    }
+  })(Typography);
+
+const BlackTypography = withStyles({
+root: {
+    color: "black",
+    fontFamily: 'Fuzzy Bubbles'
+}
+})(Typography);
 
 const Recipes = () => {
-    let { recipeID } = useParams();
     let { ingredient } = useParams();
     const navigate = useNavigate();
     const [recipes, setRecipes] = useState([]);
     const [safeToRender, setSafeToRender] = useState();
 
     const handleOnclick = (id) => {
-        recipeID = id
-        navigate(recipeID)
+        navigate('/recipe/'+id)
     }
 
     useEffect(() => { 
@@ -38,22 +50,20 @@ const Recipes = () => {
         fetchData();
     }, [])
   
-    useEffect( () => {
-        if (recipes.length > 0) {
-            const ingredientOption = {
-                'ingredient': ingredient
-            }
-            const requestBody = [...recipes, ingredientOption]
-            const requestOptions ={
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json'},
-                body: JSON.stringify(requestBody),
-            };
-            const sendRequest = async() => {
-                await fetch('/api/searchRecipeIngredient/?ingredients='+ ingredient, requestOptions);
-            }
-            sendRequest();
+    useEffect( () => { 
+        const ingredientOption = {
+            'ingredient': ingredient
+        }
+        const requestBody = [...recipes, ingredientOption]
+        const requestOptions ={
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json'},
+            body: JSON.stringify(requestBody),
         };
+        const sendRequest = async() => {
+            await fetch('/api/searchRecipeIngredient/?ingredients='+ ingredient, requestOptions);
+        }
+        sendRequest();
         
     },[recipes])
     
@@ -62,44 +72,41 @@ const Recipes = () => {
             <div>
                 {  safeToRender === null ? 
                 (
-                    <Audio
-                    height="80"
-                    width="80"
-                    radius="9"
-                    color="green"
-                    ariaLabel="loading"
-                    wrapperStyle
-                    wrapperClass
-                  />
+                    <div class="loader">
+                    <div class="circles">
+                        <span class="one"></span>
+                        <span class="two"></span>
+                        <span class="three"></span>
+                    </div>
+                    <div class="pacman">
+                        <span class="top"></span>
+                        <span class="bottom"></span>
+                        <span class="left"></span>
+                        <div class="eye"></div>
+                    </div>
+                    </div>
                 )
                 :  ( safeToRender === true ? (
 
                     <div className='container'>
-                    <h2 className='mt-5' style={{ fontFamily: 'Fuzzy Bubbles'}}>
+                    <BlackTypography variant='h4' className='mt-5'>
                         We found some recipes of {ingredient} for you!
-                    </h2>
+                    </BlackTypography>
                     <Button href="/" variant='warning'><p className='fuzzy_bubbles'>Take me back!</p></Button>
 
                     <Row className='row-cols-1 row-cols-md-3 g-5 mt-5 ms-5 me-0'>
                             {recipes?.map(recipe=>(
                                 <li key={recipe.id} style={{listStyleType: 'None'}}>
                                 <Col>
-                                    <Card  style={{ width: '18rem'}} bg="dark" text="light" className="card">
-                                        <div className='image_wrapper'>
-                                        <Card.Img variant="top" src={recipe.image}  className='card_img' />
-                                        </div>
-                                        <Card.Body className="d-flex flex-column" >
-                                            <Card.Title className='fuzzy_bubbles'>{recipe.title}</Card.Title>
-                                            <div style={{ "marginTop": "auto", "textAlgin" : "center"}}>
-                                            <center>
-                                                <Button variant="outline-light" className='button' onClick={() => handleOnclick(recipe.id)}>
-                                                    <p className='fuzzy_bubbles' >Check This Out!</p>
-                                                </Button>
-                                            </center>
-                                            </div>
-                                        </Card.Body>
-                                        
-                                    </Card>
+                                    <div className='image_wrapper'>
+                                    <img  src={recipe.image}  className='recipe_img' style={{cursor: 'pointer'}} onClick={() => handleOnclick(recipe.id)}/>
+                                    </div>
+                                    <BlackTypography className='fuzzy_bubbles'>
+                                        {recipe.title}
+                                    </BlackTypography>
+                                    <div style={{ "marginTop": "auto", "textAlgin" : "center"}}>
+                                    </div>
+                                                                              
                                 </Col>
                                 </li>
                             ))}
@@ -107,9 +114,9 @@ const Recipes = () => {
                     </div>
                 ) :(
                     <div>
-                    <h2 className='mt-5' style={{ fontFamily: 'Fuzzy Bubbles', fontColor: 'red'}}>
+                    <BlackTypography className='mt-5' >
                        sry ''{ingredient}'' is either not a valid ingredient or there is no recipe using it.  =( 
-                    </h2>   
+                    </BlackTypography>   
                     <Button href="/" variant='warning'><p className='fuzzy_bubbles'>Take me back!</p></Button>
                     </div>
                 )       

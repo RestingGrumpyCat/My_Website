@@ -4,6 +4,9 @@ import Button from 'react-bootstrap/Button';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCoffee } from '@fortawesome/free-solid-svg-icons';
+import Form from './Form';
 
 const RecipeHomePage = () => {
     const navigate = useNavigate();
@@ -64,10 +67,14 @@ const RecipeHomePage = () => {
             </ul>
             <div >
                 <div className='center-screen'>
+
                 <div ref={form} >
-                        <h2 className='fuzzy_bubbles'>What is in my fridge?</h2>
+                <FontAwesomeIcon icon={faCoffee}  className='fa-2x'/>
+                        <h2 className='fuzzy_bubbles'>What is in my fridge? </h2>
+
                         <form onSubmit={handleSubmit}>
-                            <input type = "text" name = "ingredients" placeholder="Search..." className = "text-center" onChange={handleChange} />{' '}  
+                            <input type = "text" name = "ingredients" className = "text-center" onChange={handleChange} />{' '}
+                             
                             <Button  variant="dark" type="submit" size="sm" >
                                 <p className='fuzzy_bubbles' style={{fontSize:14}}>
                                     SEARCH MEAL

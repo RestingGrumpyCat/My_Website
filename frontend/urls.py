@@ -3,5 +3,4 @@ from django.urls import path,include
 
 urlpatterns = [
     path('', index),
-    path('recipes/avocado', index)
 ]
