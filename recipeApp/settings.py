@@ -30,10 +30,14 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['project-env.eba-ruzwsj3m.us-west-2.elasticbeanstalk.com']
+
 
 SECURE_SSL_REDIRECT=True
-# Application definition
+SECURE_HSTS_SECONDS = 0
+# SESSION_COOKIE_SECURE=False
+# CSRF_COOKIE_SECURE=False
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -44,7 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'api.apps.ApiConfig',
-    'frontend.apps.FrontendConfig'
+    'frontend.apps.FrontendConfig',
 ]
 
 MIDDLEWARE = [
@@ -81,16 +85,19 @@ WSGI_APPLICATION = 'recipeApp.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': env('DB_NAME'), 
-        'USER': env('DB_USER'), 
-        'PASSWORD': env('DB_PASSWORD'),
-        'HOST': env('DB_HOST'), 
-        'PORT': env('DB_PORT'),
+    'ENGINE': 'django.db.backends.postgresql',
+    'NAME': env('DB_NAME'), 
+    'USER': env('DB_USER'), 
+    'PASSWORD': env('DB_PASSWORD'),
+    'HOST': env('DB_HOST'), 
+    'PORT': env('DB_PORT'),
     }
 }
+
 
 
 # Password validation
@@ -127,8 +134,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
-STATIC_ROOT = os.path.join(PROJECT_DIR, 'frontend/static')
+STATIC_ROOT = os.path.join(BASE_DIR,'..','frontend','static')
 STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
