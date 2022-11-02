@@ -33,7 +33,7 @@ const Recipes = () => {
     useEffect(() => { 
         const fetchData = async()=> {
             try{
-                const response = await fetch('/api/searchRecipeIngredient/?ingredients='+ ingredient );
+                const response = await fetch('/api/searchRecipeIngredient/?ingredients=' + ingredient);
                 if (!response.ok){
                     setSafeToRender(false)
                     throw new Error("Status code error :" + response.status);

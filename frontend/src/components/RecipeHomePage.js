@@ -25,7 +25,6 @@ const RecipeHomePage = () => {
     const handleSubmit = event => {
         event.preventDefault();
         if (formData){
-
             //if more than one ingredient is passed
             if (stringRegex.test(formData)){
                 navigate('recipes/' + formData)

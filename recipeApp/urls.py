@@ -1,4 +1,4 @@
-"""What-is-in-my-fridge URL Configuration
+"""URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/4.1/topics/http/urls/
@@ -17,7 +17,6 @@ from django.contrib import admin
 from django.urls import path,include
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/', include('api.urls')),
-    path('', include('frontend.urls')),
+    path(r'api/', include('api.urls'), name='api'),
+    path(r'', include('frontend.urls'), name='frontend'),
 ]
