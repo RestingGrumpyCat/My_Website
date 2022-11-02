@@ -9,7 +9,6 @@ from django.http import JsonResponse
 
 import environ
 
-from api import serializers
 env = environ.Env()
 environ.Env.read_env()
 apiKey = env('API_KEY')
@@ -57,6 +56,7 @@ def populate_api_recipe_id(data):
 
 
 class searchRecipeIngredient(APIView):
+
     lookup_url_kwarg = 'ingredients'
     serializer_class = searchRecipeIngredientSerializer
 
