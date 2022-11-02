@@ -31,7 +31,6 @@ def populate_api_recipe(data, ingredient):
         recipe_data.save()
 
 def populate_api_recipe_id(data):
-
     recipe_data = Recipe_id(
         id = data[0]["id"],
         title = data[0]['title'],
